@@ -1,7 +1,7 @@
 # 🧾 react-native-checkout-package
 
 A lightweight React Native SDK for integrating [Checkout.com](https://www.checkout.com) card payments.  
-Provides a customizable `<PaymentForm />` component with built-in validation, theming, and localisation.
+Provides a customisable `<PaymentForm />` component with built-in validation, theming, and localisation.
 
 ---
 
@@ -25,7 +25,10 @@ Wrap your app or screen with the PaymentFormProvider, passing your Checkout.com 
 import {
   PaymentFormProvider,
   PaymentForm,
+  usePaymentForm,
 } from 'react-native-checkout-package';
+
+import { ActivityIndicator, Button } from 'react-native';
 
 export default function CheckoutScreen() {
   const [message, setMessage] = useState('');
@@ -40,9 +43,11 @@ export default function CheckoutScreen() {
   });
 
   return (
-    <PaymentFormProvider apiKey="pk_test_your_public_key_here">
+    <PaymentFormProvider publicKey="pk_test_your_public_key_here">
       <View>
         <PaymentForm />
+        <ActivityIndicator animating={isSubmitting} />
+        <Button title="Submit" onPress={submit} />
       </View>
     </PaymentFormProvider>
   );
@@ -53,9 +58,9 @@ export default function CheckoutScreen() {
 
 | Prop |	Type |	Required |	Description |
 | - | - | - | - |
-| apiKey |	string	|  ✅	| Your Checkout.com public key |
+| publicKey |	string	|  ✅	| Your Checkout.com public key |
 | theme |	object |	❌ |	Optional styles to override input appearance |
-| localisation	 | object |	❌ |	Override default field labels/placeholders |
+| localisation | object |	❌ |	Override default field labels/placeholders |
 
 ## ✍️ usePaymentForm Params
 
