@@ -26,6 +26,8 @@ const state: State = {
 
 const listeners = new Set<Listener>();
 
+export const refresh = () => listeners.forEach((listener) => listener());
+
 export const subscribe = (listener: Listener) => {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -35,12 +37,12 @@ export const getState = () => state;
 
 export const setValue = (field: Field, value: string) => {
   state.values[field] = value;
-  listeners.forEach((listener) => listener());
+  refresh();
 };
 
 export const setTouched = (field: Field) => {
   state.touched[field] = true;
-  listeners.forEach((listener) => listener());
+  refresh();
 };
 
 export const validateField = (field: Field) => {
@@ -51,7 +53,7 @@ export const validateField = (field: Field) => {
   if (field === 'cvc') error = validateCVC(value);
   state.errors[field] = error;
   state.valid[field] = error === '';
-  listeners.forEach((listener) => listener());
+  refresh();
 };
 
 export const validateAll = () => {
@@ -66,5 +68,14 @@ export const validateAll = () => {
 
 export const setSubmitting = (val: boolean) => {
   state.isSubmitting = val;
-  listeners.forEach((listener) => listener());
+  refresh();
+};
+
+export const resetState = () => {
+  state.values = { cardNumber: '', expiry: '', cvc: '' };
+  state.touched = { cardNumber: false, expiry: false, cvc: false };
+  state.errors = { cardNumber: '', expiry: '', cvc: '' };
+  state.valid = { cardNumber: false, expiry: false, cvc: false };
+  state.isSubmitting = false;
+  refresh();
 };

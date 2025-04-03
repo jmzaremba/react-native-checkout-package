@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react-native';
 import { PaymentForm } from './PaymentForm';
+import { Text } from 'react-native';
+import * as store from '../../store/payment-form/paymentFormStore';
 
 jest.mock('../../utils/localisation', () => ({
   useLocalisation: () => ({
@@ -36,8 +38,6 @@ const MockInputField = ({
   );
 };
 
-import { Text } from 'react-native';
-
 describe('PaymentForm', () => {
   it('SHOULD render all input fields with correct labels and placeholders from localisation', () => {
     const { getByText } = render(<PaymentForm />);
@@ -47,5 +47,12 @@ describe('PaymentForm', () => {
     ).toBeTruthy();
     expect(getByText('Expiry Date - MM/YY [expiry]')).toBeTruthy();
     expect(getByText('CVC - 123 [cvc]')).toBeTruthy();
+  });
+
+  it('SHOULD reset state on unmount ', () => {
+    const resetStoreSpy = jest.spyOn(store, 'resetState');
+    const { unmount } = render(<PaymentForm />);
+    unmount();
+    expect(resetStoreSpy).toHaveBeenCalledTimes(1);
   });
 });
