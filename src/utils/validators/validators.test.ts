@@ -1,4 +1,4 @@
-import { validateCardNumber, validateExpiry, validateCVC } from './validators';
+import { validateCardNumber, validateExpiry, validateCVV } from './validators';
 
 describe('validators', () => {
   describe('validateCardNumber', () => {
@@ -31,36 +31,64 @@ describe('validators', () => {
     });
 
     it('SHOULD return error if not in MM/YY format', () => {
-      expect(validateExpiry('12-24')).toBe('Invalid expiry date');
-      expect(validateExpiry('1224')).toBe('Invalid expiry date');
-      expect(validateExpiry('1/24')).toBe('Invalid expiry date');
-      expect(validateExpiry('12/2024')).toBe('Invalid expiry date');
+      expect(validateExpiry('12-24')).toBe('Invalid expiry format');
+      expect(validateExpiry('1224')).toBe('Invalid expiry format');
+      expect(validateExpiry('1/24')).toBe('Invalid expiry format');
+      expect(validateExpiry('12/2024')).toBe('Invalid expiry format');
     });
 
-    it('SHOULD return empty string for valid MM/YY', () => {
-      expect(validateExpiry('12/24')).toBe('');
-      expect(validateExpiry('01/30')).toBe('');
+    it('SHOULD return error if month is out of range', () => {
+      expect(validateExpiry('00/25')).toBe('Invalid expiry month');
+      expect(validateExpiry('13/25')).toBe('Invalid expiry month');
+    });
+
+    it('SHOULD return error if expiry date is in the past', () => {
+      const pastYear = String(new Date().getFullYear() - 1).slice(-2);
+      expect(validateExpiry(`12/${pastYear}`)).toBe('Card has expired');
+    });
+
+    it('SHOULD return error if current year but past month', () => {
+      const now = new Date();
+      const year = String(now.getFullYear()).slice(-2);
+      const pastMonth = String(now.getMonth()).padStart(2, '0');
+      expect(validateExpiry(`${pastMonth}/${year}`)).toBe('Card has expired');
+    });
+
+    it('SHOULD return empty string for valid future MM/YY', () => {
+      const now = new Date();
+      const futureMonth = String((now.getMonth() + 2) % 12 || 12).padStart(
+        2,
+        '0'
+      );
+      const futureYear = (
+        now.getMonth() === 11 ? now.getFullYear() + 2 : now.getFullYear() + 1
+      )
+        .toString()
+        .slice(-2);
+
+      const futureExpiry = `${futureMonth}/${futureYear}`;
+      expect(validateExpiry(futureExpiry)).toBe('');
     });
   });
 
-  describe('validateCVC', () => {
+  describe('validateCVV', () => {
     it('SHOULD return error if empty', () => {
-      expect(validateCVC('')).toBe('CVC is required');
+      expect(validateCVV('')).toBe('CVV is required');
     });
 
     it('SHOULD return error if length is invalid', () => {
-      expect(validateCVC('12')).toBe('Invalid CVC');
-      expect(validateCVC('12345')).toBe('Invalid CVC');
+      expect(validateCVV('12')).toBe('Invalid CVV');
+      expect(validateCVV('12345')).toBe('Invalid CVV');
     });
 
     it('SHOULD return error if contains non-digit characters', () => {
-      expect(validateCVC('12a')).toBe('Invalid CVC');
-      expect(validateCVC('abcd')).toBe('Invalid CVC');
+      expect(validateCVV('12a')).toBe('Invalid CVV');
+      expect(validateCVV('abcd')).toBe('Invalid CVV');
     });
 
-    it('SHOULD return empty string for valid 3 or 4 digit CVC', () => {
-      expect(validateCVC('123')).toBe('');
-      expect(validateCVC('1234')).toBe('');
+    it('SHOULD return empty string for valid 3 or 4 digit CVV', () => {
+      expect(validateCVV('123')).toBe('');
+      expect(validateCVV('1234')).toBe('');
     });
   });
 });

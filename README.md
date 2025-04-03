@@ -90,8 +90,8 @@ localisation={{
   cardNumberPlaceholder: '1234 5678 9012 3456',
   expiryLabel: 'Expiry Date',
   expiryPlaceholder: 'MM/YY',
-  cvcLabel: 'Security Code',
-  cvcPlaceholder: 'CVC',
+  cvvLabel: 'Security Code',
+  cvvPlaceholder: 'CVV',
 }}
 ```
 
@@ -102,7 +102,7 @@ Card number format (16 digits)
 
 Expiry format (MM/YY)
 
-CVC (3–4 digits)
+CVV (3–4 digits)
 
 ## 🧪 Testing
 The package is fully tested using Jest and React Native Testing Library. Custom form logic is handled via external store and React hooks for stability and isolation.

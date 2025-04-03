@@ -1,23 +1,11 @@
-import { useSyncExternalStore } from 'react';
 import {
-  getState,
-  subscribe,
+  paymentFormStore,
   type Field,
 } from '../../store/payment-form/paymentFormStore';
 
-const useFieldValue = (field: Field) =>
-  useSyncExternalStore(subscribe, () => getState().values[field]);
-
-const useFieldError = (field: Field) =>
-  useSyncExternalStore(subscribe, () => getState().errors[field]);
-
-const useFieldTouched = (field: Field) =>
-  useSyncExternalStore(subscribe, () => getState().touched[field]);
-
 export const useField = (field: Field) => {
-  return {
-    value: useFieldValue(field),
-    error: useFieldError(field),
-    touched: useFieldTouched(field),
-  };
+  const value = paymentFormStore.useStore((state) => state.values[field]);
+  const error = paymentFormStore.useStore((state) => state.errors[field]);
+  const touched = paymentFormStore.useStore((state) => state.touched[field]);
+  return { value, error, touched };
 };

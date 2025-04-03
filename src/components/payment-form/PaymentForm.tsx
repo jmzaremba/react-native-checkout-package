@@ -2,13 +2,13 @@ import { StyleSheet, View } from 'react-native';
 import { InputField } from '../input-field/InputField';
 import { useLocalisation } from '../../utils/localisation';
 import { useEffect } from 'react';
-import { resetState } from '../../store/payment-form/paymentFormStore';
+import { resetPaymentForm } from '../../store/payment-form/paymentFormActions';
 
 export const PaymentForm = () => {
   const localisation = useLocalisation();
   useEffect(() => {
     return () => {
-      resetState();
+      resetPaymentForm();
     };
   }, []);
 
@@ -25,9 +25,9 @@ export const PaymentForm = () => {
         placeholder={localisation.expiryPlaceholder}
       />
       <InputField
-        field="cvc"
-        label={localisation.cvcLabel}
-        placeholder={localisation.cvcPlaceholder}
+        field="cvv"
+        label={localisation.cvvLabel}
+        placeholder={localisation.cvvPlaceholder}
       />
     </View>
   );

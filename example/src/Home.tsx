@@ -13,6 +13,7 @@ import { PaymentForm, usePaymentForm } from 'react-native-checkout-package';
 
 const Home: React.FC = () => {
   const [message, setMessage] = useState('');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   const { isSubmitting, submit } = usePaymentForm({
     onSuccess: (token) => {
@@ -27,7 +28,11 @@ const Home: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <Pressable onPress={Keyboard.dismiss} style={styles.container}>
         <View style={styles.content}>
-          <PaymentForm />
+          <Button
+            title="Show Payment Form"
+            onPress={() => setShowPaymentForm((prev) => !prev)}
+          />
+          {showPaymentForm && <PaymentForm />}
           <View style={styles.buttonContainer}>
             <Button title="Submit" onPress={submit} />
             <ActivityIndicator animating={isSubmitting} />

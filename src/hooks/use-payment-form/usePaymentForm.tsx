@@ -1,26 +1,21 @@
-import { useCallback, useSyncExternalStore } from 'react';
+import { useCallback } from 'react';
+import { paymentFormStore } from '../../store/payment-form/paymentFormStore';
 import {
-  subscribe,
-  getState,
   validateAll,
   setSubmitting,
-} from '../../store/payment-form/paymentFormStore';
+} from '../../store/payment-form/paymentFormActions';
 import { request } from '../../utils/network/network';
 import { useKeys } from '../../utils/keys';
 
-export const usePaymentForm = ({
-  onSuccess,
-  onError,
-}: {
+type UsePaymentFormProps = {
   onSuccess: (token: string) => void;
   onError: (error: string) => void;
-}) => {
+};
+
+export const usePaymentForm = ({ onSuccess, onError }: UsePaymentFormProps) => {
   const { publicKey } = useKeys();
 
-  const isSubmitting = useSyncExternalStore(
-    subscribe,
-    () => getState().isSubmitting
-  );
+  const isSubmitting = paymentFormStore.useStore((s) => s.isSubmitting);
 
   const submit = useCallback(async () => {
     setSubmitting(true);
@@ -31,10 +26,12 @@ export const usePaymentForm = ({
         return onError('Validation failed');
       }
 
-      const number = Number(getState().values.cardNumber);
-      const expiry_month = Number(getState().values.expiry.split('/')[0]);
-      const expiry_year = Number('20' + getState().values.expiry.split('/')[1]);
-      const cvv = getState().values.cvc;
+      const { cardNumber, expiry, cvv } = paymentFormStore.getState().values;
+
+      const number = Number(cardNumber);
+      const [month, yearSuffix] = expiry.split('/');
+      const expiry_month = Number(month);
+      const expiry_year = Number('20' + yearSuffix);
 
       const body = JSON.stringify({
         type: 'card',

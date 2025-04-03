@@ -5,8 +5,8 @@ export type Localisation = {
   cardNumberPlaceholder: string;
   expiryLabel: string;
   expiryPlaceholder: string;
-  cvcLabel: string;
-  cvcPlaceholder: string;
+  cvvLabel: string;
+  cvvPlaceholder: string;
   invalidCardError: string;
 };
 
@@ -15,8 +15,8 @@ export const defaultLocalisation: Localisation = {
   cardNumberPlaceholder: '4242 4242 4242 4242',
   expiryLabel: 'Expiry date',
   expiryPlaceholder: 'MM/YY',
-  cvcLabel: 'CVC',
-  cvcPlaceholder: 'CVC',
+  cvvLabel: 'CVV',
+  cvvPlaceholder: 'CVV',
   invalidCardError: 'Invalid card number',
 };
 

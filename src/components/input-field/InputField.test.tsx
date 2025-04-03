@@ -1,17 +1,17 @@
 import { render, fireEvent } from '@testing-library/react-native';
 import { InputField } from './InputField';
-import {
-  setValue,
-  setTouched,
-  validateField,
-} from '../../store/payment-form/paymentFormStore';
 import { useField } from '../../hooks/use-field/useField';
+import {
+  setTouched,
+  setValue,
+  validateField,
+} from '../../store/payment-form/paymentFormActions';
 
 jest.mock('../../hooks/use-field/useField', () => ({
   useField: jest.fn(),
 }));
 
-jest.mock('../../store/payment-form/paymentFormStore', () => ({
+jest.mock('../../store/payment-form/paymentFormActions', () => ({
   setValue: jest.fn(),
   setTouched: jest.fn(),
   validateField: jest.fn(),

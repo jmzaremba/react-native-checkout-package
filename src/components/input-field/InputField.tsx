@@ -7,14 +7,16 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
+
+import { useThemeContext } from '../../utils/theme';
+import { useField } from '../../hooks/use-field/useField';
+import type { Field } from '../../store/payment-form/paymentFormStore';
+
 import {
   setTouched,
   setValue,
   validateField,
-  type Field,
-} from '../../store/payment-form/paymentFormStore';
-import { useThemeContext } from '../../utils/theme';
-import { useField } from '../../hooks/use-field/useField';
+} from '../../store/payment-form/paymentFormActions';
 
 type Props = {
   field: Field;
