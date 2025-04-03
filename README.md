@@ -49,18 +49,20 @@ export default function CheckoutScreen() {
 }
 ```
 
-## ✍️ Props
+## ✍️ PaymentFormProvider Props
 
-<PaymentFormProvider />
-Prop	Type	Required	Description
-apiKey	string	✅	Your Checkout.com public key
-theme	object	❌	Optional styles to override input appearance
-localization	object	❌	Override default field labels/placeholders
+| Prop |	Type |	Required |	Description |
+| - | - | - | - |
+| apiKey |	string	|  ✅	| Your Checkout.com public key |
+| theme |	object |	❌ |	Optional styles to override input appearance |
+| localisation	 | object |	❌ |	Override default field labels/placeholders |
 
-<PaymentForm />
-Prop	Type	Required	Description
-onSuccess	(token: string) => void	✅	Called with card token on success
-onError	(error: string) => void	✅	Called with error message
+## ✍️ usePaymentForm Params
+
+| Prop |	Type |	Required |	Description |
+| - | - | - | - |
+| onSuccess |	(token: string) => void	| ✅ | Called with card token on success |
+| onError |	(error: string) => void |	✅ |	Called with error message |
 
 
 ## 🎨 Theming
