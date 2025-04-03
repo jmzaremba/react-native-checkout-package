@@ -100,6 +100,10 @@ CVC (3–4 digits)
 ## 🧪 Testing
 The package is fully tested using Jest and React Native Testing Library. Custom form logic is handled via external store and React hooks for stability and isolation.
 
+## Example App
+
+Checkout the [README.md](https://github.com/jmzaremba/react-native-flow-checkout/blob/main/example/README.md) in the example directory
+
 ## 🧑‍💻 Contributing
 See the contributing guide to learn how to contribute and run the development workflow locally.
 
